@@ -9,6 +9,7 @@
         public DbSet<Employee> Employees => Set<Employee>();
         public DbSet<BusinessPartner> BusinessPartners => Set<BusinessPartner>();
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

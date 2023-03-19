@@ -17,12 +17,13 @@ static void AddEmployees(IRepository<Employee> repository)
     repository.Save();
 }
 
-static void AddManagers(IRepository<Manager> repository)
+static void AddManagers(IWriteRepository<Manager> repository)
 {
     repository.Add(new Manager { FirstName = "Stefan" });
     repository.Add(new Manager { FirstName = "Witold" });
     repository.Save();
 }
+
 
 static void WriteAllToConsole(IReadRepository<IEntity> repository)
 {
