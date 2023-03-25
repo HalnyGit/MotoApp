@@ -1,33 +1,57 @@
 ﻿using MotoApp.Repositories;
 using MotoApp.Entities;
 using MotoApp.Data;
+using MotoApp.Repositories.Extensions;
 
+var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), EmployeeAdded);
+employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
 
-var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext());
+static void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
+{
+    Console.WriteLine($"Employee added {e.FirstName} from {sender?.GetType().Name}");
+}
+
 AddEmployees(employeeRepository);
-AddManagers(employeeRepository);
 WriteAllToConsole(employeeRepository);
 
-
-static void AddEmployees(IRepository<Employee> repository)
+static void EmployeeAdded(Employee item)
 {
-    repository.Add(new Employee { FirstName = "Zuzanna" });
-    repository.Add(new Employee { FirstName = "Dominik" });
-    repository.Add(new Employee { FirstName = "Adam" });
-    repository.Save();
+    Console.WriteLine($"{item} added");
+
 }
 
-static void AddManagers(IWriteRepository<Manager> repository)
+
+static void AddEmployees(IRepository<Employee> employeeRepository)
 {
-    repository.Add(new Manager { FirstName = "Stefan" });
-    repository.Add(new Manager { FirstName = "Witold" });
-    repository.Save();
+    var employees = new[]
+    {
+        new Employee {FirstName = "Adam"},
+        new Employee {FirstName = "Dominik"},
+        new Employee {FirstName = "Zuzanna"},
+
+    };
+
+    employeeRepository.AddBatch(employees);
+
+    //repository.Add(new Employee { FirstName = "Zuzanna" });
+    //repository.Add(new Employee { FirstName = "Dominik" });
+    //repository.Add(new Employee { FirstName = "Adam" });
+    //repository.Save();
 }
 
+//static void AddBatch<T>(IRepository<T> repository, T[] items)
+//    where T : class, IEntity
+//{
+//    foreach (var item in items )
+//    {
+//        repository.Add(item);
+//    }
+//    repository.Save();
+//}
 
 static void WriteAllToConsole(IReadRepository<IEntity> repository)
 {
-   var items = repository.GetAll();
+    var items = repository.GetAll();
     foreach (var item in items)
     {
         Console.WriteLine(item);
