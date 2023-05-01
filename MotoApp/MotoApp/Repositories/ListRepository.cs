@@ -1,7 +1,7 @@
 ﻿namespace MotoApp.Repositories
 {
     using MotoApp.Entities;
-    public class GenericRepository<T> : IRepository<T> where T : class, IEntity, new()
+    public class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
 
         protected readonly List<T> _items = new();

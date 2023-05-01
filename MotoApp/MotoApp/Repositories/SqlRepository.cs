@@ -29,8 +29,8 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity
     public void Add(T item)
     {
         _dbSet.Add(item);
-        _itemAddedCallback?.Invoke(item);
-        ItemAdded?.Invoke(this, item);
+        _itemAddedCallback?.Invoke(item); // delegate action
+        ItemAdded?.Invoke(this, item); // eventhandler
 
     }
 
