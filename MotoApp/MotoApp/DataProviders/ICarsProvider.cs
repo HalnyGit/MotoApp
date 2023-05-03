@@ -4,13 +4,14 @@ using MotoApp.Entities;
 
 public interface ICarsProvider
 {
-    List<Car> FilterCars(decimal minPrice);
 
     List<string> GetUniqueCarColors();
 
     decimal GetMinimumPriceOfAllCars();
+    List<Car> FilterCars(decimal minPrice);
 
+    List<Car> GetSpecificColumns();
 
-
+    string AnonymousClass();
 
 }
