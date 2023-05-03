@@ -5,16 +5,25 @@ namespace MotoApp.DataProviders;
 
 public class CarsProviderBasic : ICarsProvider
 {
-    private readonly ICarsProvider _carsRepository;
+    private readonly IRepository<Car> _carsRepository;
 
     public CarsProviderBasic(IRepository<Car> carsRepository)
     {
         _carsRepository = carsRepository;
     }
 
-    public decimal GetMinimumPriceOfAllCars()
+    public List<Car> FilterCars(decimal minPrice)
     {
-        throw new NotImplementedException();
+        var cars = _carsRepository.GetAll();
+        var list = new List<Car>();
+        foreach (var car in cars)
+        {
+            if(car.ListPrice > minPrice)
+            {
+                list.Add(car);
+            }
+        }
+        return list;
     }
 
     public List<string> GetUniqueCarColors()
@@ -22,8 +31,9 @@ public class CarsProviderBasic : ICarsProvider
         throw new NotImplementedException();
     }
 
-    List<Car> ICarsProvider.FilterCars(decimal minPrice)
+    public decimal GetMinimumPriceOfAllCars()
     {
         throw new NotImplementedException();
     }
+
 }

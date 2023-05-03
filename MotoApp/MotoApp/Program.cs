@@ -2,10 +2,13 @@
 using MotoApp;
 using MotoApp.Entities;
 using MotoApp.Repositories;
+using MotoApp.DataProviders;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
+services.AddSingleton<IRepository<Car>, ListRepository<Car>>();
+services.AddSingleton<ICarsProvider, CarsProviderBasic>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
