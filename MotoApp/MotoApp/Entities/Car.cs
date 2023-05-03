@@ -16,7 +16,13 @@ public class Car : EntityBase
 
     public override string ToString()
     {
-        return $"Name: {Name}\nColor: {Color}\nStandard Cost: {StandardCost}\nList price: {ListPrice}\nType: {Type}\n";
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine($"Id: {Id} Name: {Name}");
+        sb.AppendLine($"         Color: {Color} Type: {Type ?? "n/a"}");
+        sb.AppendLine($"         Cost:  {StandardCost} Price: {ListPrice}");
+
+        return sb.ToString();
     }
 
 

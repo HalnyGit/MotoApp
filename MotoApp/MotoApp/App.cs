@@ -53,7 +53,7 @@ public class App : IApp
             _carsRepository.Add(car);
         }
 
-        foreach(var car in _carsProvider.FilterCars(1330M))
+        foreach(var car in _carsProvider.ChunkCars(2))
         {
             Console.WriteLine(car);
         }
