@@ -2,8 +2,9 @@
 
 namespace MotoApp.Components.CsvReader;
 
-public interface ICsvReaders
+public interface ICsvReader
 {
     List<CarModel> ProcessCars(string filePath);
+    List<Manufacturer> ProcessManufacturers(string filePath);
 
 }

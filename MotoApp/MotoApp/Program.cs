@@ -5,22 +5,34 @@ using MotoApp.Data.Repositories;
 using MotoApp.Components.DataProviders;
 using MotoApp.Components.CsvReader;
 using MotoApp.Components.CsvReader.Models;
-
-
-
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
 services.AddSingleton<IRepository<Car>, ListRepository<Car>>();
 services.AddSingleton<ICarsProvider, CarsProvider>();
+services.AddSingleton<ICsvReader, CsvReader>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
 app.Run();
 
-string fp = "C:\\Users\\halin\\Projects\\MotoApp\\MotoApp\\MotoApp\\Resources\\Files\\fuel.csv";
-List<CarModel> carModels = ProcessCars(fp);
+
+
+
+
+
+
+
+
+//string fp = "C:\\Users\\halin\\Projects\\MotoApp\\MotoApp\\MotoApp\\Resources\\Files\\fuel.csv";
+//var csvReader = new CsvReader();
+//List<CarModel> carModels = csvReader.ProcessCars(fp);
+//foreach(var model in carModels)
+//{
+//    Console.WriteLine(model.Displacement);
+//}
 
 
 
