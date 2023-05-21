@@ -1,11 +1,11 @@
-﻿using MotoApp.DataProviders.Extensions;
-using MotoApp.Entities;
-using MotoApp.Repositories;
+﻿using MotoApp.Components.DataProviders.Extensions;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 using System;
 using System.Drawing;
 using System.Text;
 
-namespace MotoApp.DataProviders;
+namespace MotoApp.Components.DataProviders;
 
 public class CarsProvider : ICarsProvider
 {
@@ -35,7 +35,7 @@ public class CarsProvider : ICarsProvider
         {
             Id = car.Id,
             Name = car.Name,
-            Type= car.Type,
+            Type = car.Type,
         }).ToList();
 
         return list;
@@ -43,9 +43,9 @@ public class CarsProvider : ICarsProvider
 
     public List<string> GetUniqueCarColors()
     {
-       var cars = _carsRepository.GetAll();
-       var colors = cars.Select(x => x.Color).Distinct().ToList();
-       return colors;
+        var cars = _carsRepository.GetAll();
+        var colors = cars.Select(x => x.Color).Distinct().ToList();
+        return colors;
     }
 
     public string AnonymousClass()
@@ -59,7 +59,7 @@ public class CarsProvider : ICarsProvider
         });
 
         StringBuilder sb = new StringBuilder();
-        
+
         foreach (var car in list)
         {
             sb.AppendLine($"Product Id: {car.Identifier}");
@@ -106,7 +106,7 @@ public class CarsProvider : ICarsProvider
     public List<Car> WhereStartsWith(string prefix)
     {
         var cars = _carsRepository.GetAll();
-        return cars.Where(x=>x.Name.StartsWith(prefix)).ToList();
+        return cars.Where(x => x.Name.StartsWith(prefix)).ToList();
     }
 
     public List<Car> WhereStartsWithAndCostIsGreaterThan(string prefix, decimal cost)
@@ -119,7 +119,7 @@ public class CarsProvider : ICarsProvider
     {
         var cars = _carsRepository.GetAll();
         return cars.ByColor(color).ToList();
-        
+
     }
 
     // first, last, single
@@ -215,7 +215,7 @@ public class CarsProvider : ICarsProvider
         return cars
             .Select(x => x.Color)
             .Distinct()
-            .OrderBy(c=>c)
+            .OrderBy(c => c)
             .ToList();
     }
 
@@ -223,8 +223,8 @@ public class CarsProvider : ICarsProvider
     {
         var cars = _carsRepository.GetAll();
         return cars
-            .DistinctBy(x=>x.Color)
-            .OrderBy(x=>x.Color)
+            .DistinctBy(x => x.Color)
+            .OrderBy(x => x.Color)
             .ToList();
     }
 

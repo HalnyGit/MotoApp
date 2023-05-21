@@ -1,8 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MotoApp;
-using MotoApp.Entities;
-using MotoApp.Repositories;
-using MotoApp.DataProviders;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
+using MotoApp.Components.DataProviders;
+using MotoApp.Components.CsvReader;
+using MotoApp.Components.CsvReader.Models;
+
+
+
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
@@ -13,6 +18,12 @@ services.AddSingleton<ICarsProvider, CarsProvider>();
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
 app.Run();
+
+string fp = "C:\\Users\\halin\\Projects\\MotoApp\\MotoApp\\MotoApp\\Resources\\Files\\fuel.csv";
+List<CarModel> carModels = ProcessCars(fp);
+
+
+
 
 
 

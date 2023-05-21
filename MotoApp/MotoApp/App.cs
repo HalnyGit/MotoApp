@@ -1,8 +1,8 @@
 ﻿namespace MotoApp;
 
-using MotoApp.Repositories;
-using MotoApp.Entities;
-using MotoApp.DataProviders;
+using MotoApp.Components.DataProviders;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 
 public class App : IApp
 {
