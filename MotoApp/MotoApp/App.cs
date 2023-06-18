@@ -1,52 +1,54 @@
 ﻿namespace MotoApp;
 
 using MotoApp.Components.CsvReader;
+using MotoApp.Data;
+using MotoApp.Data.Entities;
 using System;
 using System.Xml.Linq;
 
 public class App : IApp
 {
     private readonly ICsvReader _csvReader;
-    public App(ICsvReader csvReader)
+    private readonly MotoAppDbContext _motoAppDbContext;
+
+    public App(ICsvReader csvReader, MotoAppDbContext motoAppDbContext)
     {
         _csvReader = csvReader;
+        _motoAppDbContext = motoAppDbContext;
+        _motoAppDbContext.Database.EnsureCreated();
     }
 
     public void Run()
     {
-        CreateXml();
-        QueryXml();
+        // InsertData();
 
-    }
+        var carsFromDb = _motoAppDbContext.Cars.ToList();
 
-    private void QueryXml()
-    {
-        var document = XDocument.Load("fuel.xml");
-        var names = document
-            .Element("Cars")?
-            .Elements("Car")
-            .Where(x => x.Attribute("Manufacturer")?.Value == "BMW")
-            .Select(x => x.Attribute("Name")?.Value);
-
-        foreach (var name in names)
+        foreach(var carFromDb in carsFromDb)
         {
-            Console.WriteLine(name);
+            Console.WriteLine($"\t{carFromDb.Name} : {carFromDb.Combined}");
         }
+
     }
 
-    private void CreateXml()
+    private void InsertData()
     {
-        var records = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
 
-        var document = new XDocument();
-        var cars = new XElement("Cars", records
-            .Select(x =>
-                new XElement("Car",
-                    new XAttribute("Name", x.Name),
-                    new XAttribute("Year", x.Year),
-                    new XAttribute("Manufacturer", x.Manufacturer)
-            )));
-        document.Add(cars);
-        document.Save("fuel.xml");
+        foreach (var car in cars)
+        {
+            _motoAppDbContext.Cars.Add(new Car()
+            {
+                Manufacturer = car.Manufacturer,
+                Name = car.Name,
+                Year = car.Year,
+                City = car.City,
+                Combined = car.Combined,
+                Cylinders = car.Cylinders,
+                Displacement = car.Displacement,
+                Highway = car.Highway,
+            });
+        }
+        _motoAppDbContext.SaveChanges();
     }
 }
