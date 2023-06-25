@@ -21,14 +21,58 @@ public class App : IApp
     public void Run()
     {
         // InsertData();
+        // ReadAllCarsFromDb();
+        // ReadGroupCarsFromDb();
 
+        //var cayman = ReadFirst("0000");
+        //cayman.Name = "Cayman";
+        //_motoAppDbContext.SaveChanges();
+
+        var cayman = ReadFirst("Cayman");
+        _motoAppDbContext.Cars.Remove(cayman);
+        _motoAppDbContext.SaveChanges();
+    }
+
+    public Car? ReadFirst(string name)
+    {
+        return _motoAppDbContext.Cars.FirstOrDefault(c => c.Name == name);
+    }
+
+
+    private void ReadGroupCarsFromDb()
+    {
+        var groups = _motoAppDbContext
+            .Cars
+            .GroupBy(c => c.Manufacturer)
+            .Select(c => new
+            {
+                Name = c.Key,
+                Cars = c.ToList()
+            })
+            .ToList();
+
+        foreach(var group in groups)
+        {
+            Console.WriteLine(group.Name);
+            Console.WriteLine("=========");
+            foreach(var car in group.Cars)
+            {
+                Console.WriteLine($"\t{car.Name}:{car.Combined}");
+            }
+            Console.WriteLine();
+        }
+
+
+    }
+
+    private void ReadAllCarsFromDb()
+    {
         var carsFromDb = _motoAppDbContext.Cars.ToList();
 
-        foreach(var carFromDb in carsFromDb)
+        foreach (var carFromDb in carsFromDb)
         {
             Console.WriteLine($"\t{carFromDb.Name} : {carFromDb.Combined}");
         }
-
     }
 
     private void InsertData()
